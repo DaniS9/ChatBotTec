@@ -17,13 +17,13 @@ function App() {
       <div className="p-4 flex-1">
         <Routes>
           <Route path='/' element={<Inicio />}  />
-          <Route path='/chat' element={<Conocimiento />}  />
-          <Route path='/conversacion' element={<Apariencia />}  />
-          <Route path='/conocimiento' element={<Notificaciones />}  />
-          <Route path='/historial' element={<Conversaciones />}  />
-          <Route path='/notificaciones' element={<Notificaciones />}  />
+          <Route path='/chat' element={<Conocimiento/>}  />
+          <Route path='/apariencia' element={<Apariencia/>}  />
+          <Route path='/Conocimiento' element={<Notificaciones/>}  />
+          <Route path='/Conversaciones' element={<Conversaciones/>}  />
+          <Route path='/notificaciones' element={<Notificaciones/>}  />
           <Route path='/incrustacion' element={<Incrustacion />}  />
-          <Route path='/ajustes' element={<Info />}  />
+          <Route path='/Info' element={<Info/>}  />
 
  
         </Routes>

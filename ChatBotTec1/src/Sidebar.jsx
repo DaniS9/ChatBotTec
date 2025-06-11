@@ -30,11 +30,7 @@ export default function Sidebar() {
           <ListItemText primary="Inicio" />
         </ListItemButton>
 
-        <ListItemButton component={RouterLink} to="/chat">
-          <ListItemIcon><SmartToyIcon /></ListItemIcon>
-          <ListItemText primary="Detalles del Bot" />
-        </ListItemButton>
-
+  
         <ListItemButton component={RouterLink} to="/conocimiento">
           <ListItemIcon><PsychologyIcon /></ListItemIcon>
           <ListItemText primary="Conocimiento" />
