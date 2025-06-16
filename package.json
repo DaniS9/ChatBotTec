@@ -5,5 +5,14 @@
     "@mui/icons-material": "^7.1.1",
     "@mui/material": "^7.1.1",
     "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.3",
+    "postcss": "^8.4.31",
+    "autoprefixer": "^10.4.16"
+  },
+  "scripts": {
+    "dev": "tailwindcss -i ./src/index.css -o ./dist/output.css --watch",
+    "build": "tailwindcss -i ./src/index.css -o ./dist/output.css --minify"
   }
 }

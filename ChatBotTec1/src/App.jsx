@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import Sidebar from './Sidebar';
+import Sidebar from './assets/pages/SidebarCom';
 import Inicio from './assets/pages/Inicio';
 import Conocimiento from './assets/pages/Conocimiento'; // Asegúrate del nombre exacto
 import Conversaciones from './assets/pages/Conversaciones';
