@@ -74,6 +74,20 @@ function App() {
               Formatos soportados: JPG, PNG (Máx. 2MB)
             </p>
           </div>
+          <div className='mt-8 pt-4 border-t'>
+            <h3 className="font-medium mb-3">Descripción del Bot</h3>
+
+               <textarea
+                className="w-full p-3 border border-gray-200 rounded-lg focus:border-blue-500"
+                rows={4}
+                placeholder="Ejemplo: Soy un bot de atención al cliente y soy experto en tecnología."
+
+              />
+                <p className="text-sm text-gray-500 mt-2">
+              Las instrucciones te permiten personalizar la personalidad y el estilo de tu bot.
+            </p>
+
+          </div>
             <div className='mt-8 pt-4 border-t'>
           <button className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             Guardar cambios
