@@ -1,4 +1,4 @@
-// src/assets/pages/Apariencia.jsx
+
 export default function Conocimiento() {
-  return <div>Página de Conocimiento</div>;
+  return <div>Página de Conocimiento  121212</div>;
 }
