@@ -16,23 +16,20 @@ function App() {
 
   // Obtener el último registro y mostrarlo 
   useEffect(() => {
-  const fetchUltimo = async () => {
-    try {
-      setNombre('Cargando...');
-      setDescripcion('Cargando...');
-      const res = await axios.get("http://127.0.0.1:8000/api/registros");
-      const registros = res.data;
+    const fetchUltimo = async () => {
+  try {
+    setNombre("Cargando...");
+    setDescripcion("Cargando...");
+    const res = await axios.get("http://127.0.0.1:8000/api/registros");
+    const ultimo = res.data;
 
-      
-        const ultimo = registros ; 
-        setNombre(ultimo.Nombre);
-        setDescripcion(ultimo.Descripcion_Bot);
-      
-    } catch (error) {
-      console.error("Error trayendo el último registro:", error);
-    }
-    };
-
+    setNombre(ultimo.Nombre ?? "");
+    setDescripcion(ultimo.Descripcion_Bot ?? "");
+  } catch (error) {
+    console.error("Error trayendo el último registro:", error);
+  }
+};
+  
     fetchUltimo();
     }, []);
 
