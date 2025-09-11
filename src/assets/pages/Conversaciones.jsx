@@ -2,10 +2,6 @@
 import { Card, CardContent, Typography, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 
-
-
-
-
 export default function Apariencia() {
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
@@ -41,6 +37,27 @@ export default function Apariencia() {
     console.error("Error al cargar mensajes:", err);
   }
 };
+const descargarJSON = async () => {
+  try {
+    const res = await fetch("http://127.0.0.1:8000/api/conversaciones"); // o un endpoint que incluya mensajes
+    const conversaciones = await res.json();
+
+    const blob = new Blob([JSON.stringify(conversaciones, null, 2)], {
+      type: "application/json"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "historial_chatbot.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (err) {
+    console.error("Error al descargar historial:", err);
+  }
+};
+
 
 
     return (
@@ -54,8 +71,17 @@ export default function Apariencia() {
               <Typography variant="h6" className="mb-4">
                 Historial
               </Typography>
+              <button
+              onClick={descargarJSON}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              >
+              Descargar historial (JSON)
+              </button>
+
 
               <Divider sx={{ my: 1 }} className="bg-gray-600" />
+
+              
 
               {/* Ejemplo de item */}
               <div className="h-[70vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#475569] scrollbar-track-[#1e293b]">
