@@ -48,7 +48,7 @@ export default function Sidebar() {
 
         <ListItemButton component={RouterLink} to="/notificaciones">
           <ListItemIcon><NotificationsIcon /></ListItemIcon>
-          <ListItemText primary="Notificaciones" />
+          <ListItemText primary="Estadísticas" />
         </ListItemButton>
 
         <ListItemButton component={RouterLink} to="/incrustacion">

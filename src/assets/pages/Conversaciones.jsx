@@ -235,9 +235,10 @@ const generarPDFHistorial = async () => {
   {selectedChat ? (
     <div className="space-y-3">
       {selectedChat.mensajes.map((msg, i) => (
+        console.log(`Mensaje #${i}:`, msg.content),
         <div key={i} className={`p-3 rounded-lg ${msg.role === 'user' ? 'bg-[#334155]' : 'bg-[#475569]'}`}>
           <p className="text-sm text-gray-400">{msg.role === 'user' ? 'Usuario' : 'Bot'}</p>
-          <p>{msg.content}</p>
+          <p className="whitespace-pre-wrap break-words text-white">{msg.content}</p>
           <p className="text-xs text-gray-400">
             {new Date(msg.fecha).toLocaleString('es-MX', {
               dateStyle: 'medium',
