@@ -13,6 +13,9 @@ function App() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [errorNombre, setErrorNombre] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedImageFile, setSelectedImageFile] = useState(null);
+  const [_registroActual, setRegistroActual] = useState(null);
+
 
   // Obtener el último registro y mostrarlo 
   useEffect(() => {
@@ -25,6 +28,9 @@ function App() {
 
     setNombre(ultimo.Nombre ?? "");
     setDescripcion(ultimo.Descripcion_Bot ?? "");
+    setRegistroActual(ultimo);
+    setSelectedImage(ultimo.Imagen ? `http://localhost:8000${ultimo.Imagen}` : null);// 👈 imagen desde BD
+
   } catch (error) {
     console.error("Error trayendo el último registro:", error);
   }
@@ -60,44 +66,85 @@ function App() {
     return () => clearTimeout(delayDebounce);
   }, [nombre]); // <- se ejecuta cada vez que cambia "nombre"
 
+  
+
+ const actualizarRegistro = async (id, file, nombre, descripcion) => {
+  try {
+    const formData = new FormData();
+    formData.append('imagen', file);
+    formData.append('Nombre', nombre);
+    formData.append('Descripcion_Bot', descripcion);
+
+    const res = await fetch(`http://127.0.0.1:8000/api/registros/${id}/actualizar`, {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+    console.log("URL real:", data.data.Imagen); // 👈 debería imprimirse
+    setRegistroActual(data.data);
+    setSelectedImage(`http://localhost:8000${data.data.Imagen}`);
+    console.log("URL final:", `http://localhost:8000${data.data.Imagen}`);
+
+  } catch (error) {
+    console.error("Error actualizando registro:", error);
+  }
+};
+
+
+
+
+
 
        // 👇 Guardar el bot
-   const handleSubmit = async (e) => {
-   e.preventDefault();
-   setLoading(true);
-   
-    
-    //Si hay error muestra en Consola
-     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/registros", {
-        Nombre: nombre,
-        Descripcion_Bot: descripcion,
-      });
+      const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-      console.log("Guardado:", response.data);
-      alert("✅ Bot guardado correctamente");
-    } catch (err) {
-      if (err.response?.status === 422) {
-        const errores = err.response.data.errors;
-        if (errores.Nombre) {
-          setErrorNombre(errores.Nombre[0]);
-        }
-      } else {
-        alert("❌ Error al guardar el bot");
-      }
-    } finally {
-      setLoading(false);
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/registros", {
+      Nombre: nombre,
+      Descripcion_Bot: descripcion,
+    });
+
+    const nuevoRegistro = response.data.data;
+    console.log("Guardado:", nuevoRegistro);
+
+    // 👇 Aquí actualizas con imagen si existe
+    if (selectedImageFile) {
+      await actualizarRegistro(nuevoRegistro.id, selectedImageFile, nombre, descripcion);
     }
-  };
+
+    alert("✅ Bot guardado correctamente");
+  } catch (err) {
+    if (err.response?.status === 422) {
+      const errores = err.response.data.errors;
+      if (errores.Nombre) {
+        setErrorNombre(errores.Nombre[0]);
+      }
+    } else {
+      alert("❌ Error al guardar el bot");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
     //Esto es para cargar la Imagen (Aun no esta terminado falta en la BD)
-    const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
-    }
-  };
+
+
+const handleImageUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    console.log("Imagen seleccionada:", file.name);
+    setSelectedImageFile(file); // solo guardas el archivo
+    
+
+  }
+};
+
+
+  
 
 return (
     <form onSubmit={handleSubmit} className="w-full">
@@ -156,6 +203,8 @@ return (
               </Button>
               <p className="text-sm text-gray-500 mt-2">
                 Formatos soportados: JPG, PNG (Máx. 2MB)
+
+                
               </p>
             </div>
 
@@ -189,6 +238,9 @@ return (
               </button>
             </div>
           </Paper>
+
+
+
         </Box>
       </Box>
     </form>
